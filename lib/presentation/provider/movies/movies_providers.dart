@@ -10,6 +10,30 @@ final nowPlayingMoviesProvider =
   },
 );
 
+final popularMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getPopular;
+    return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+  },
+);
+
+final topRatedMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getTopRated;
+    return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+  },
+);
+
+final upComingMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>(
+  (ref) {
+    final fetchMoreMovies = ref.watch(moviesRepositoryProvider).getUpcoming;
+    return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+  },
+);
+
 typedef MovieCallBack = Future<List<Movie>> Function({int page});
 
 class MoviesNotifier extends StateNotifier<List<Movie>> {
