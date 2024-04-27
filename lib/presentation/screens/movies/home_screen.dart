@@ -35,49 +35,72 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     final slideShowMovies = ref.watch(moviesSlideShowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const CustomAppBar(),
-          MoviesSlideShow(
-            movies: slideShowMovies,
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppBar(),
+            titlePadding: EdgeInsets.zero,
           ),
-          MovieHorizontalListView(
-            title: 'En cines',
-            subTitle: 'Lunes 20',
-            movies: nowPlayingMovies,
-            loadNextPage: () {
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Column(
+                children: [
+                  MoviesSlideShow(
+                    movies: slideShowMovies,
+                  ),
+                  MovieHorizontalListView(
+                    title: 'En cines',
+                    subTitle: 'Lunes 20',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () {
+                      ref
+                          .read(nowPlayingMoviesProvider.notifier)
+                          .loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListView(
+                    title: 'Próximamente',
+                    subTitle: 'En este mes',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () {
+                      ref
+                          .read(nowPlayingMoviesProvider.notifier)
+                          .loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListView(
+                    title: 'Populares',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () {
+                      ref
+                          .read(nowPlayingMoviesProvider.notifier)
+                          .loadNextPage();
+                    },
+                  ),
+                  MovieHorizontalListView(
+                    title: 'Mejor calificadas',
+                    subTitle: 'De todos los tiempos',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () {
+                      ref
+                          .read(nowPlayingMoviesProvider.notifier)
+                          .loadNextPage();
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  )
+                ],
+              );
             },
+            childCount: 1,
           ),
-          MovieHorizontalListView(
-            title: 'Próximamente',
-            subTitle: 'En este mes',
-            movies: nowPlayingMovies,
-            loadNextPage: () {
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-            },
-          ),
-          MovieHorizontalListView(
-            title: 'Populares',
-            movies: nowPlayingMovies,
-            loadNextPage: () {
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-            },
-          ),
-          MovieHorizontalListView(
-            title: 'Mejor calificadas',
-            subTitle: 'De todos los tiempos',
-            movies: nowPlayingMovies,
-            loadNextPage: () {
-              ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-            },
-          ),
-          const SizedBox(
-            height: 10,
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
