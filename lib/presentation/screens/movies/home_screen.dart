@@ -1,3 +1,4 @@
+import 'package:cinemapedia/presentation/provider/movies/first_loading_provider.dart';
 import 'package:cinemapedia/presentation/provider/provider.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,9 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final firstLoading = ref.watch(firstLoadingProvider);
+    if (firstLoading) return const FullScreenLoader();
+
     final slideShowMovies = ref.watch(moviesSlideShowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
